@@ -29,6 +29,7 @@ import com.facebook.android.FacebookError;
 import cin.ufpe.*;
 
 public class FriendsList extends ListActivity {
+	
        private Handler mHandler = new Handler();
        private FriendsListAdapter amigos;
        private FaceTab facetab;
@@ -61,20 +62,20 @@ public class FriendsList extends ListActivity {
        private int mViewResourceId;
        public FriendsListAdapter(Context ctx, int viewResourceId) {
                super(ctx,viewResourceId);
-               mInflater = (LayoutInflater)ctx.getSystemService(
-                               Context.LAYOUT_INFLATER_SERVICE);
+               mInflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                mViewResourceId = viewResourceId;
        }
        public void addAll(ArrayList<Friend> friends) {
                        for (Friend f : friends) {add(f);}
-               }
-               public View getView(int position, View convertView, ViewGroup parent) {
-               convertView = mInflater.inflate(mViewResourceId, null);
-               TextView iv = (TextView)convertView.findViewById(R.id.tvv);
-               iv.setText(getItem(position).getName());
-               TextView tvv = (TextView)convertView.findViewById(R.id.idv);
-               tvv.setText(String.valueOf(getItem(position).getRank()));
-               return convertView;
+       }
+       
+       public View getView(int position, View convertView, ViewGroup parent) {
+		   convertView = mInflater.inflate(mViewResourceId, null);
+		   TextView iv = (TextView)convertView.findViewById(R.id.tvv);
+		   iv.setText(getItem(position).getName());
+		   TextView tvv = (TextView)convertView.findViewById(R.id.idv);
+		   tvv.setText(String.valueOf(getItem(position).getRank()));
+		   return convertView;
        }
    }
 
@@ -108,11 +109,11 @@ public class FriendsList extends ListActivity {
                        ArrayList<Friend> friends = facetab.getFriends();
                        js = new JSONObject(response).getJSONArray("data");
                        for (int i = 0; i < js.length(); i++) {
-                       r = ((String) js.getJSONObject(i).get("name"));
-                       id = ((String) js.getJSONObject(i).get("id"));                       
-                       friends.add(new Friend(r,id,0));
-               }
-               amigos.addAll(friends);
+		                       r = ((String) js.getJSONObject(i).get("name"));
+		                       id = ((String) js.getJSONObject(i).get("id"));                       
+		                       friends.add(new Friend(r,id,0));
+                       }
+                       amigos.addAll(friends);
                }
             });
        }

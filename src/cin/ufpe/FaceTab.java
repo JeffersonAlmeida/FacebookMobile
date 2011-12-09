@@ -28,6 +28,7 @@ public class FaceTab extends TabActivity {
     private AsyncFacebookRunner mAsyncRunner;
     private SharedPreferences mPrefs;
     private ArrayList<Friend> friends = new ArrayList<Friend>();
+    private ArrayList<Post> posts = new ArrayList<Post>();
 
     public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -67,8 +68,8 @@ public class FaceTab extends TabActivity {
 
     private void addPostsTab(TabHost tabHost, Resources res)
                     throws NotFoundException {
-            Intent intent = new Intent().setClass(this, Posts.class);
-            TabHost.TabSpec spec = tabHost.newTabSpec("Posts").setIndicator("Posts",
+            Intent intent = new Intent().setClass(this, PostList.class);
+            TabHost.TabSpec spec = tabHost.newTabSpec("PostList").setIndicator("PostList",
                                  res.getDrawable(R.drawable.ic_launcher)).setContent(intent);
         tabHost.addTab(spec);
     }
@@ -106,6 +107,14 @@ public class FaceTab extends TabActivity {
           });
     }
     }
+
+public ArrayList<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(ArrayList<Post> posts) {
+		this.posts = posts;
+	}
 
 public class meRequestListener implements RequestListener {
     public void onComplete(String response, Object state) {}

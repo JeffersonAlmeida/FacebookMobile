@@ -3,6 +3,7 @@
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
    android:stretchColumns="1">
+ 
  <TableRow>
    <TextView android:id="@+id/tvv"
        android:padding="10dp"
@@ -14,4 +15,5 @@
        android:gravity="right"
        android:textSize="12sp" />
 </TableRow>
+
 </TableLayout>
