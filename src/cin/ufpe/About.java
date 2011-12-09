@@ -8,7 +8,7 @@ public class About extends Activity {
    public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        TextView tv = new TextView(this);
-       tv.setText("By phmb, CIn-UFPE.");
+       tv.setText("By Jefferson Almeida, CIn-UFPE.");
        setContentView(tv);
    }
 }

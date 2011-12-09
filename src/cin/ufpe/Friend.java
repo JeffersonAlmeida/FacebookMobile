@@ -4,7 +4,7 @@ package cin.ufpe;
 	    	
 		private String name;
     	private String id;
-    	private int rank;
+    	private int rank = 0;
 	
 	    public Friend(String n, String i, int r) {
 		    setName(n);

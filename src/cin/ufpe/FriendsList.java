@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,18 +23,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.facebook.android.*;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
+import com.facebook.android.FacebookError;
+
+import cin.ufpe.*;
 
 public class FriendsList extends ListActivity {
        private Handler mHandler = new Handler();
-       private FriendsListAdapter a;
+       private FriendsListAdapter amigos;
        private FaceTab facetab;
 
    public void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        facetab = (FaceTab) this.getParent();
-               setListDataSource();
+       setListDataSource();
        getFacebookFriends();
    }
 
@@ -44,9 +47,9 @@ public class FriendsList extends ListActivity {
 
    private void setListDataSource() {
                ListView lv = getListView();
-               a = new FriendsListAdapter(this,R.layout.list_item);
-               lv.setAdapter(a);
-           lv.setTextFilterEnabled(true);
+               amigos = new FriendsListAdapter(this,R.layout.list_item);
+               lv.setAdapter(amigos);
+               lv.setTextFilterEnabled(true);
        }
 
        private void getFacebookFriends() {
@@ -80,26 +83,36 @@ public class FriendsList extends ListActivity {
                mHandler.post(new Runnable() {
                        public void run() {
                                try {
-                                       updateListDataSourceWithFriends(response);
+                               updateListDataSourceWithFriends(response);
                                sortListDataSource();
+                               imprimeDataSource();
                    } catch (JSONException e) {
                        Log.e("Facebook","Formato não reconhecido: " + e.getMessage());
                    }
                }
                private void sortListDataSource() {
-                       //a.sort(TO DO: comparador para Friends);
+            	       Comparator<Friend> nomeComparator = new NameComparator();
+            	   	   amigos.sort(nomeComparator);
                }
-               private void updateListDataSourceWithFriends(
-                               final String response) throws JSONException {
-                       String r;
+               private void imprimeDataSource() {
+            	   int i = 0 ;
+            	   while(i< amigos.getCount()){
+            		   Friend amigo = amigos.getItem(i);
+            		   System.out.println("amigo = " + amigo.getName());
+            		   i++;
+            	   }
+               }
+               private void updateListDataSourceWithFriends(final String response) throws JSONException {
+                       String r,id;
                        JSONArray js;
                        ArrayList<Friend> friends = facetab.getFriends();
                        js = new JSONObject(response).getJSONArray("data");
                        for (int i = 0; i < js.length(); i++) {
                        r = ((String) js.getJSONObject(i).get("name"));
-                       friends.add(new Friend(r,"Id",0));
+                       id = ((String) js.getJSONObject(i).get("id"));                       
+                       friends.add(new Friend(r,id,0));
                }
-               a.addAll(friends);
+               amigos.addAll(friends);
                }
             });
        }
