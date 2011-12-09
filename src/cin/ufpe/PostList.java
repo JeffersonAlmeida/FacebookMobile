@@ -83,6 +83,8 @@ public class PostsListener implements RequestListener {
                                    if (jason.getJSONObject(i).has("story")) {
                                            String post = (String) jason.getJSONObject(i).get("story");
                                            String nomePost = (String) jason.getJSONObject(i).getJSONObject("from").get("name");
+                                           String idNomePost = (String) jason.getJSONObject(i).getJSONObject("from").get("id");
+                                           System.out.println("IdNomePost = " + idNomePost);
                                            Post p = new Post(nomePost, post);
                                            posts.add(p);
                                    }
